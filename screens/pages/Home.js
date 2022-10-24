@@ -30,6 +30,7 @@ import {
   editProduct,
   getProductFetch,
 } from '../../redux/productSlice';
+import auth from '@react-native-firebase/auth';
 
 const Home = () => {
   const [ModalVisible, setModalVisible] = useState(false);
@@ -144,6 +145,16 @@ const Home = () => {
     setOfferedPrice(doc?._data?.offeredPrice);
     setImageUrl(doc?._data?.imageUrl);
   };
+  const Logout = () => {
+    auth()
+      .signOut()
+      .then(() => {
+        console.log('signed out');
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   const renderItem = ({item}) => (
     <View style={styles.item}>
@@ -239,7 +250,7 @@ const Home = () => {
             marginVertical: 8,
           }}
           disabled={!isLoading}
-          onPress={() => setModalVisible(true)}>
+          onPress={Logout}>
           Logout
         </Button>
       </View>
